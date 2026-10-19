@@ -8,6 +8,7 @@
   "vars": {
     "OSS_REGION": "oss-cn-heyuan",
     "OSS_BUCKET": "lonivxy-personal-cloud-20261019",
-    "ALLOWED_ORIGIN": "https://lonivxy.github.io"
+    "ALLOWED_ORIGIN": "https://lovx.me"
   }
 }
+
