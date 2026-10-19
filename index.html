@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f5f2" />
+    <title>云端档案 · 我的云盘</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="rail" aria-label="主导航">
+        <a class="brand" href="#" aria-label="云端档案首页"><span class="brand-mark">雲</span></a>
+        <a class="rail-link active" href="#files" aria-label="全部文件" title="全部文件">▤</a>
+        <a class="rail-link" href="#recent" aria-label="最近文件" title="最近文件">◷</a>
+        <div class="rail-spacer"></div>
+        <a class="rail-link" href="./README.md" aria-label="使用说明" title="使用说明">?</a>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div class="crumb"><span>个人空间</span><span class="crumb-slash">/</span><strong>我的云盘</strong></div>
+          <div class="top-actions"><span class="status-dot"></span><span class="status-text">阿里云 OSS</span><span class="avatar">L</span></div>
+        </header>
+
+        <section class="intro" id="files">
+          <div>
+            <p class="eyebrow">YOUR PRIVATE ARCHIVE</p>
+            <h1>文件都在这里。</h1>
+            <p class="subhead">一个安静、简单的入口，整理并取回你的云端文件。</p>
+          </div>
+          <div class="storage-note"><span class="storage-icon">↗</span><span>文件存储于<br /><b>Aliyun Object Storage</b></span></div>
+        </section>
+
+        <section class="summary" aria-label="文件概览">
+          <div><span class="summary-label">文件数量</span><strong id="file-count">—</strong></div>
+          <div><span class="summary-label">总容量</span><strong id="total-size">—</strong></div>
+          <div><span class="summary-label">最近更新</span><strong id="last-updated">—</strong></div>
+        </section>
+
+        <section class="file-section" id="recent">
+          <div class="section-heading"><div><p class="eyebrow">LIBRARY</p><h2>全部文件</h2></div><span class="file-total" id="result-count">正在读取目录…</span></div>
+          <div class="toolbar">
+            <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索文件名" autocomplete="off" /><kbd>/</kbd></label>
+            <div class="filters" role="group" aria-label="按类型筛选">
+              <button class="filter active" data-kind="all">全部</button><button class="filter" data-kind="archive">压缩包</button><button class="filter" data-kind="document">文档</button><button class="filter" data-kind="image">图片</button><button class="filter" data-kind="other">其他</button>
+            </div>
+            <button class="view-toggle" id="view-toggle" aria-label="切换列表视图" title="切换列表视图">☷</button>
+          </div>
+          <div class="table-wrap">
+            <div class="table-head"><span>名称</span><span>大小</span><span>修改时间</span><span></span></div>
+            <div id="file-list" class="file-list" aria-live="polite"><div class="loading"><span class="spinner"></span>正在读取文件目录</div></div>
+          </div>
+          <div id="empty-state" class="empty-state" hidden><span class="empty-mark">＋</span><h3 id="empty-title">目录暂时为空</h3><p id="empty-copy">上传至私有 OSS Bucket 的文件会显示在这里。</p></div>
+          <div id="error-state" class="error-state" hidden>无法读取文件目录，请稍后刷新重试。</div>
+        </section>
+        <footer><span>云端档案</span><span>以清晰的方式保存和取回文件</span></footer>
+      </section>
+    </main>
+    <dialog id="login-dialog" class="login-dialog">
+      <form id="login-form" class="login-card">
+        <p class="eyebrow">PRIVATE ACCESS</p>
+        <h2>进入你的云盘</h2>
+        <p>请输入云盘访问密码。文件仍保存在私有 OSS 中。</p>
+        <label for="drive-password">访问密码</label>
+        <input id="drive-password" type="password" autocomplete="current-password" required />
+        <p id="login-error" class="login-error" hidden></p>
+        <button type="submit">进入云盘</button>
+      </form>
+    </dialog>
+    <script src="./config.js" defer></script>
+    <script src="./app.js" defer></script>
+  </body>
+</html>

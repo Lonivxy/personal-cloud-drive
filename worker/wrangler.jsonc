@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lonivxy-personal-cloud-api",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-10-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "vars": {
+    "OSS_REGION": "oss-cn-heyuan",
+    "OSS_BUCKET": "lonivxy-personal-cloud-20261019",
+    "ALLOWED_ORIGIN": "https://lonivxy.github.io"
+  }
+}

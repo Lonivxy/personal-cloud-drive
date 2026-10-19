@@ -1,0 +1,14 @@
+{
+  "name": "personal-cloud-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "ali-oss": "^6.23.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.35.0"
+  }
+}
