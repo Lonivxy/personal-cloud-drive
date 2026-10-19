@@ -48,6 +48,7 @@ export default {
     } : {};
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     if (origin && origin !== allowedOrigin) return json({ error: 'origin_not_allowed' }, 403);
+    if (!env.DRIVE_PASSWORD || !env.SESSION_SECRET || !env.OSS_ACCESS_KEY_ID || !env.OSS_ACCESS_KEY_SECRET) return json({ error: 'not_configured' }, 503, cors);
     if (new URL(request.url).pathname === '/api/login' && request.method === 'POST') {
       let body;
       try { body = await request.json(); } catch { return json({ error: 'invalid_request' }, 400, cors); }
@@ -86,3 +87,4 @@ export default {
     return json({ error: 'not_found' }, 404, cors);
   },
 };
+
