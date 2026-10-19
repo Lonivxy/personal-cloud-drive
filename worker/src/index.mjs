@@ -1,5 +1,3 @@
-import OSS from 'ali-oss';
-
 const json = (body, status = 200, headers = {}) => new Response(JSON.stringify(body), {
   status,
   headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...headers },
@@ -17,7 +15,13 @@ const timingSafeEqual = (a, b) => {
   return out === 0;
 };
 
-function makeOss(env) {
+let ossModule;
+async function makeOss(env) {
+  if (!ossModule) {
+    if (typeof globalThis.window === 'undefined') globalThis.window = globalThis;
+    ossModule = import('ali-oss').then((module) => module.default);
+  }
+  const OSS = await ossModule;
   return new OSS({
     accessKeyId: env.OSS_ACCESS_KEY_ID,
     accessKeySecret: env.OSS_ACCESS_KEY_SECRET,
@@ -61,7 +65,7 @@ export default {
 
     const url = new URL(request.url);
     if (url.pathname === '/api/files' && request.method === 'GET') {
-      const client = makeOss(env);
+      const client = await makeOss(env);
       const files = [];
       let token;
       do {
@@ -81,7 +85,7 @@ export default {
       try { body = await request.json(); } catch { return json({ error: 'invalid_request' }, 400, cors); }
       const key = body?.key;
       if (typeof key !== 'string' || !key || key.startsWith('/') || key.includes('..') || key.includes('\\')) return json({ error: 'invalid_key' }, 400, cors);
-      const signedUrl = await makeOss(env).signatureUrlV4('GET', 300, {}, key);
+      const signedUrl = await (await makeOss(env)).signatureUrlV4('GET', 300, {}, key);
       return json({ url: signedUrl, expiresIn: 300 }, 200, cors);
     }
     return json({ error: 'not_found' }, 404, cors);
