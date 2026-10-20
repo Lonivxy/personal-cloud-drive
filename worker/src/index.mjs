@@ -47,9 +47,31 @@ const timingSafeEqual = (a, b) => {
 };
 
 let ossModule;
+const workerUrllib = {
+  async request(url, options = {}) {
+    const headers = new Headers();
+    const workerManagedHeaders = new Set(['host', 'connection', 'content-length', 'transfer-encoding', 'accept-encoding', 'user-agent']);
+    for (const [name, value] of Object.entries(options.headers ?? {})) {
+      if (!workerManagedHeaders.has(name.toLowerCase())) headers.set(name, value);
+    }
+    const response = await fetch(url, {
+      method: options.method ?? 'GET',
+      headers,
+      ...(options.data == null ? {} : { body: options.data }),
+      redirect: 'manual',
+    });
+    return {
+      status: response.status,
+      data: await response.text(),
+      headers: Object.fromEntries(response.headers.entries()),
+      res: response,
+    };
+  },
+};
 async function makeOss(env) {
   if (!ossModule) {
     if (typeof globalThis.window === 'undefined') globalThis.window = globalThis;
+    globalThis.location ??= new URL('https://localhost/');
     ossModule = import('ali-oss').then((module) => module.default);
   }
   const OSS = await ossModule;
@@ -61,6 +83,7 @@ async function makeOss(env) {
     endpoint: `https://oss-${env.OSS_REGION}.aliyuncs.com`,
     secure: true,
     authorizationV4: true,
+    urllib: workerUrllib,
   });
 }
 
