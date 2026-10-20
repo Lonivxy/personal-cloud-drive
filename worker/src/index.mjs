@@ -27,7 +27,7 @@ async function makeOss(env) {
     accessKeySecret: env.OSS_ACCESS_KEY_SECRET,
     bucket: env.OSS_BUCKET,
     region: env.OSS_REGION,
-    endpoint: `https://${env.OSS_REGION}.aliyuncs.com`,
+    endpoint: `https://oss-${env.OSS_REGION}.aliyuncs.com`,
     secure: true,
     authorizationV4: true,
   });

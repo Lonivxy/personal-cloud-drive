@@ -6,8 +6,9 @@
 
 - 私有 Bucket `lonivxy-personal-cloud-20261019` 已创建于河源地域，标准存储、本地冗余，并开启阻止公共访问。
 - GitHub Pages 前端已发布，自动部署工作流成功。
-- 页面暂未连接后端；ZIP 还没有上传。RAM 用户正在等待阿里云账号安全检查完成。
-- Worker 代码已通过 Wrangler dry-run 构建；尚未部署到 Cloudflare。部署后需要把 Worker URL 写入 `config.js` 并重新推送。
+- ZIP `archive-2026-08-19T122438+0800.zip` 已原样上传，大小为 8,586,204,897 字节。
+- GitHub Pages 前端已发布，Cloudflare Worker 后端也已部署；Worker Secrets 尚未配置，因此登录、列目录和下载暂不可用。
+- Worker URL 已写入 `config.js`。完成专用 OSS 只读密钥配置后，需要验证登录、目录和下载流程。
 
 ## 安全设计
 
