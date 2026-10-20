@@ -9,8 +9,12 @@ let token = sessionStorage.getItem('cloud-drive-session') || '';
 async function api(path, options = {}) {
   if (!API) throw new Error('api_not_configured');
   const response = await fetch(`${API}${path}`, { ...options, headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}), ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers }, cache: 'no-store' });
-  if (response.status === 401) { token = ''; sessionStorage.removeItem('cloud-drive-session'); throw new Error('unauthorized'); }
-  if (!response.ok) throw new Error(`api_${response.status}`);
+  if (response.status === 401 && path !== '/api/login') { token = ''; sessionStorage.removeItem('cloud-drive-session'); throw new Error('unauthorized'); }
+  if (!response.ok) {
+    let message = `api_${response.status}`;
+    try { message = (await response.json()).error || message; } catch {}
+    throw new Error(message);
+  }
   return response.json();
 }
 function render() {
