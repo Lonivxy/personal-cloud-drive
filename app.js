@@ -54,13 +54,14 @@ $('login-form').addEventListener('submit', async (event) => {
   const submit = $('login-form').querySelector('button[type="submit"]');
   submit.disabled = true;
   try {
-    const result = await api('/api/login', { method: 'POST', body: JSON.stringify({ password: $('drive-password').value }) });
+    const result = await api('/api/login', { method: 'POST', body: JSON.stringify({ password: $('drive-password').value, code: $('drive-totp').value }) });
     token = result.token;
     sessionStorage.setItem('cloud-drive-session', token);
     $('drive-password').value = '';
+    $('drive-totp').value = '';
     await loadFiles();
   } catch (error) {
-    $('login-error').textContent = error.message === 'invalid_password' ? '密码不正确，请重试。' : '暂时无法连接云盘，请稍后重试。';
+    $('login-error').textContent = error.message === 'invalid_credentials' ? '密码或动态验证码不正确，请重试。' : '暂时无法连接云盘，请稍后重试。';
     $('login-error').hidden = false;
   } finally { submit.disabled = false; }
 });

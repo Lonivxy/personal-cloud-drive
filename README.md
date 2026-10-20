@@ -21,9 +21,12 @@
 - `OSS_ACCESS_KEY_ID`
 - `OSS_ACCESS_KEY_SECRET`
 - `DRIVE_PASSWORD`
+- `TOTP_SECRET` (Base32 seed; add the same seed to an authenticator app)
 - `SESSION_SECRET`
 
 `wrangler.jsonc` 仅保存 Bucket 名、地域和允许的网站来源。
+
+AES-256 加密后再做 Base64 并不能增强登录：Base64 可直接还原，固定密文也能被重放。登录通过 HTTPS 提交密码，并由 Worker 校验密码与 TOTP 动态码；TOTP 种子只保存在 Worker Secret 中。
 
 ## GitHub Pages
 

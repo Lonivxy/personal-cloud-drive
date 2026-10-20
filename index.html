@@ -61,9 +61,11 @@
       <form id="login-form" class="login-card">
         <p class="eyebrow">PRIVATE ACCESS</p>
         <h2>进入你的云盘</h2>
-        <p>请输入云盘访问密码。文件仍保存在私有 OSS 中。</p>
+        <p>请输入访问密码和验证器中的 6 位动态验证码。文件仍保存在私有 OSS 中。</p>
         <label for="drive-password">访问密码</label>
         <input id="drive-password" type="password" autocomplete="current-password" required />
+        <label for="drive-totp">动态验证码</label>
+        <input id="drive-totp" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required />
         <p id="login-error" class="login-error" hidden></p>
         <button type="submit">进入云盘</button>
       </form>
